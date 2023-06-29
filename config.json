@@ -1,0 +1,38 @@
+{
+  "hive": {
+    "remove": {
+      "unwanted_param": "^set map.*\n?",
+      "replace_with": "",
+      "set test.key": false,
+      "set mapred.job.queue.name": true,
+      "set mapreduce.map.memory.mb": true,
+      "set mapreduce.reduce.memory.mb": true
+    },
+    "update": {
+      "old_hive_engine": "set hive.execution.engine = mr",
+      "new_hive_engine": "set hive.execution.engine = tez",
+      "old_input_hdfs_cdh_path": "/cdh/dataset/",
+      "new_input_hdfs_cdp_path": "/cdp/data/dataset/"
+    }
+  },
+  "spark": {
+    " set behavior before Spark 3.0.":"spark.conf.set(\"spark.sql.legacy.timeParserPolicy\",\"LEGACY\")",
+      "spark.security.credentials.hiveserver2.enabled=true"
+      #spark.sql.hive.hiveserver2.jdbc.url.principal=hive/_HOST@ROOT.HWX.SITE
+
+    },
+    "update": {
+      "add_month_new":"start_date_is_last_day = f.last_day(start_date) == start_date",
+      "add_month_old": "df.orderBy(desc(\"index\")).drop('index').show(10)",
+      "timestamp":"timestamp returns a UTC timestamp string in RFC 3339 format",
+      "explode_old_spark":" df_new.select(\"name\",explode(\"knownLanguages\")).show()",
+      "explode_new_spark": "df3.select(\"knownLanguages\",explode(df3.knownLanguages).alias(\"b\")).show() ",
+      "spark_old_version": "CDH",
+      "spark_new_version": "CDP"
+    },
+    "remove": {
+      "import com.hortonworks.spark.sql.hive.llap.{HiveWarehouseBuilder, HiveWarehouseSession}": "true"
+
+    }
+  }
+}
